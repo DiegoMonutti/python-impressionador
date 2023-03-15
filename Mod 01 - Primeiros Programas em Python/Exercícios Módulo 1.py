@@ -59,10 +59,10 @@ Ex:
     Vinho Primitivo Lucarelli -> Código: BAC1546001
     Vodka Smirnoff -> Código: BAC17675002
 
-Repare que todas as bebidas não alcóolicas tem o início do Código "BEB" e todas as bebidas alcóolicas tem o início do código "BAC".
+Repare que todas as bebidas não alcoólicas tem o início do Código "BEB" e todas as bebidas alcoólicas tem o início do código "BAC".
 
-Crie um programa de consulta de bebida que, dado um código qualquer, identifique se a bebida é alcóolica. 
-     O programa deve responder True para bebidas alcóolicas e False para bebidas não alcóolicas. 
+Crie um programa de consulta de bebida que, dado um código qualquer, identifique se a bebida é alcoólica. 
+     O programa deve responder True para bebidas alcoólicas e False para bebidas não alcoólicas. 
      Para inserir um código, use um input."""
 
 
