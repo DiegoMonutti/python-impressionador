@@ -23,20 +23,20 @@ class ContaCorrente:
         return horario_BR.strftime(r'%d/%m/%Y %H:%M:%S')
 
     def __init__(self, nome, cpf, agencia, num_conta):
-        self.nome = nome
-        self.cpf = cpf
-        self.agencia = agencia
-        self.num_conta = num_conta
-        self.saldo = 0
-        self.limite = None
-        self.transacoes = []
+        self._nome = nome
+        self.__cpf = cpf
+        self._agencia = agencia
+        self._num_conta = num_conta
+        self._saldo = 0
+        self._limite = None
+        self._transacoes = []
 
     def consultar_saldo(self):
         '''
         Exibe o saldo atual da conta do cliente. 
         Não há parâmetros necessários.
         '''
-        print(f'Seu saldo atual é de R$ {self.saldo:,.2f}')
+        print(f'Seu saldo atual é de R$ {self._saldo:,.2f}')
 
     def depositar_dinheiro(self, valor):
         '''
@@ -45,8 +45,8 @@ class ContaCorrente:
         Parâmetros: 
             valor(float): Valor depositado em conta.
         '''
-        self.saldo += valor
-        self.transacoes.append((valor, self.saldo, ContaCorrente._data_hora()))
+        self._saldo += valor
+        self._transacoes.append((valor, self._saldo, ContaCorrente._data_hora()))
 
     def _definir_limite(self):
         '''
@@ -55,8 +55,8 @@ class ContaCorrente:
         Atributo: 
             limite(float): Limite disponível em conta.
         '''
-        self.limite = -1000
-        return self.limite
+        self._limite = -1000
+        return self._limite
     
     def consultar_limite(self):
         '''
@@ -72,13 +72,13 @@ class ContaCorrente:
         Parâmetros: 
             valor(float): Valor depositado em conta.
         '''
-        if self.saldo - valor < self._definir_limite():
+        if self._saldo - valor < self._definir_limite():
             print('Você não possui saldo e(ou) limite para sacar esse valor.')
             self.consultar_saldo()
             self.consultar_limite()
         else:
-            self.saldo -= valor
-            self.transacoes.append((-valor, self.saldo, ContaCorrente._data_hora()))
+            self._saldo -= valor
+            self._transacoes.append((-valor, self._saldo, ContaCorrente._data_hora()))
     
     def consultar_transacoes(self):
         '''
@@ -87,7 +87,7 @@ class ContaCorrente:
         '''
         print('Histórico de Transações:')
         print('Valor, Saldo, Data e Hora')
-        for transacao in self.transacoes:
+        for transacao in self._transacoes:
             print(transacao)
 
     def transferir(self, valor, conta_destino):
@@ -98,15 +98,15 @@ class ContaCorrente:
             valor(float): Valor depositado em conta.
             conta_destino: Objeto conta para o qual será feita a operação.
         '''
-        if self.saldo - valor < self._definir_limite():
+        if self._saldo - valor < self._definir_limite():
             print('Você não possui saldo e(ou) limite para realizar essa transferência.')
             self.consultar_saldo()
             self.consultar_limite()
         else:
-            self.saldo -= valor
-            self.transacoes.append((-valor, self.saldo, ContaCorrente._data_hora()))
-            conta_destino.saldo += valor
-            conta_destino.transacoes.append((valor, conta_destino.saldo, ContaCorrente._data_hora()))
+            self._saldo -= valor
+            self._transacoes.append((-valor, self._saldo, ContaCorrente._data_hora()))
+            conta_destino._saldo += valor
+            conta_destino._transacoes.append((valor, conta_destino._saldo, ContaCorrente._data_hora()))
 
 
 #Criar Conta:
