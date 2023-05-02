@@ -48,6 +48,17 @@ class ContaCorrente:
         for transacao in self.transacoes:
             print(transacao)
 
+    def transferir(self, valor, conta_destino):
+        if self.saldo - valor < self._definir_limite():
+            print('Você não possui saldo e(ou) limite para realizar essa transferência.')
+            self.consultar_saldo()
+            self.consultar_limite()
+        else:
+            self.saldo -= valor
+            self.transacoes.append((-valor, self.saldo, ContaCorrente._data_hora()))
+            conta_destino.saldo += valor
+            conta_destino.transacoes.append((valor, conta_destino.saldo, ContaCorrente._data_hora()))
+
 
 #Criar Conta:
 conta_Diego = ContaCorrente('Diego','111.222.333.44', 1234, 56789)
@@ -58,8 +69,14 @@ conta_Diego.consultar_saldo()
 #Depositar dinheiro:
 conta_Diego.depositar_dinheiro(10000)
 
-#Sacar dinheiro:
-conta_Diego.sacar_dinheiro(10500)
-
 #Consultar Transações:
 conta_Diego.consultar_transacoes()
+
+#Criar Nova Conta:
+conta_Fulano = ContaCorrente('Fulano', '222.333.444-55', 5678, 12345)
+
+#Transferir:
+conta_Diego.transferir(1000, conta_Fulano)
+
+conta_Diego.consultar_transacoes()
+conta_Fulano.consultar_transacoes()
