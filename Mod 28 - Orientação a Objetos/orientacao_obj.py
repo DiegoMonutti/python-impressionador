@@ -1,5 +1,6 @@
 from datetime import datetime
 import pytz
+from random import randint
 
 
 class ContaCorrente:
@@ -14,6 +15,7 @@ class ContaCorrente:
         saldo: Saldo disponível na conta do cliente
         limite: Limite do cheque especial do cliente
         transacoes: histórico de transações da conta do cliente
+        cartoes: cartões de créditos associados a conta do cliente
     '''
 
     @staticmethod
@@ -23,13 +25,14 @@ class ContaCorrente:
         return horario_BR.strftime(r'%d/%m/%Y %H:%M:%S')
 
     def __init__(self, nome, cpf, agencia, num_conta):
-        self._nome = nome
-        self.__cpf = cpf
-        self._agencia = agencia
-        self._num_conta = num_conta
+        self.nome = nome
+        self.cpf = cpf
+        self.agencia = agencia
+        self.num_conta = num_conta
         self._saldo = 0
         self._limite = None
         self._transacoes = []
+        self.cartoes = []
 
     def consultar_saldo(self):
         '''
@@ -109,6 +112,36 @@ class ContaCorrente:
             conta_destino._transacoes.append((valor, conta_destino._saldo, ContaCorrente._data_hora()))
 
 
+class CartaoCredito:
+    '''
+    Cria um objeto CartaoCredito para gerenciar os cartões de crédito das contas dos clientes
+
+    Atributos:
+        numero (int): Número inteiro gerado aleatoriamente com 16 dígitos
+        titular (str): Nome do cliente
+        validade(str): Data gerada através do método estático contando 4 anos após a criação do cartão
+        cod_seguranca(int): 3 números inteiro gerados aleatoriamente
+        limite(float): Limite do cartão
+        conta_corrente: conta do cliente associada aos cartões
+    '''
+    
+    @staticmethod
+    def _validade():
+        ano = datetime.now().year + 4
+        mes = datetime.now().month
+        return datetime(ano, mes,1).strftime('%m/%y')
+
+    def __init__(self, titular, conta_corrente):
+        self.numero = randint(1000000000000000, 9999999999999999)
+        self.titular = titular
+        self.validade = CartaoCredito._validade()
+        self.cod_seguranca = f'{randint(0, 9)}{randint(0, 9)}{randint(0, 9)}'
+        self.limite = 1000
+        self.conta_corrente = conta_corrente
+        conta_corrente.cartoes.append(self)    
+
+
+
 #Criar Conta:
 conta_Diego = ContaCorrente('Diego','111.222.333.44', 1234, 56789)
 
@@ -129,3 +162,14 @@ conta_Diego.transferir(1000, conta_Fulano)
 
 conta_Diego.consultar_transacoes()
 conta_Fulano.consultar_transacoes()
+
+#Criando Cartão de Crédito e verificando:
+cartao_Diego = CartaoCredito('Diego', conta_Diego)
+
+print(cartao_Diego.conta_corrente.num_conta)
+
+print(cartao_Diego.numero)
+
+print(cartao_Diego.validade)
+
+print(cartao_Diego.cod_seguranca)
