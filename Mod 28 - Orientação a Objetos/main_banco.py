@@ -1,4 +1,4 @@
-from classes_banco import *
+from contas_banco import *
 
 #Criar Conta:
 conta_Diego = ContaCorrente('Diego','111.222.333.44', 1234, 56789)
