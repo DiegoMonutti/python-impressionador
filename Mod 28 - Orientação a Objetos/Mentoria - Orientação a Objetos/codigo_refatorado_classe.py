@@ -10,14 +10,14 @@ class MeuRobo():
         pyautogui.PAUSE = 1
     
     def abrir_programa(self, nome_programa):
-        pyautogui.press("win")
+        pyautogui.press('win')
         pyautogui.write(nome_programa)
-        pyautogui.press("enter")
+        pyautogui.press('enter')
     
     def digitar_enter(self, texto):
         pyperclip.copy(texto)
-        pyautogui.hotkey("ctrl", "v")
-        pyautogui.press("enter")
+        pyautogui.hotkey('ctrl', 'v')
+        pyautogui.press('enter')
     
     def aguardar(self):
         time.sleep(self.tempo_espera)
@@ -34,3 +34,11 @@ class MeuRobo():
             print(f'Pegando a posição em {5 - i} segundos')
             time.sleep(1)
         print(pyautogui.position())
+    
+    def extrair_link(self, x, y):
+        self.clicar(x, y, botao='right')
+        pyautogui.press('up')
+        pyautogui.press('up')
+        pyautogui.press('enter')
+        texto = pyperclip.paste()
+        print(texto)
