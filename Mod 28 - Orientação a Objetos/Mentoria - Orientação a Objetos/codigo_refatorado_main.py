@@ -1,3 +1,4 @@
+#Executando o código:
 from codigo_refatorado_classe import MeuRobo
 
 robo = MeuRobo(3)
